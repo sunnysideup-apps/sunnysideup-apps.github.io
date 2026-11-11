@@ -36,3 +36,56 @@ nav.lang { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 8px 0 0; }
 table { width: 100%; border-collapse: collapse; font-size: 15px; }
 th, td { text-align: left; vertical-align: top; padding: 8px; border-bottom: 1px solid var(--line); }
 section.policy { margin-top: 48px; }
+
+/* ---------- Motion ---------- */
+@keyframes sunrise {
+  from { opacity: 0; transform: translateY(18px) scale(.94); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes reveal {
+  from { opacity: .15; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+.brand img { animation: sunrise .9s cubic-bezier(.2, .7, .2, 1) both; }
+.brand h1, .brand p { animation: fade-up .7s .25s cubic-bezier(.2, .7, .2, 1) both; }
+nav.lang { animation: fade-up .7s .4s cubic-bezier(.2, .7, .2, 1) both; }
+
+a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  transition: text-decoration-color .2s ease, color .2s ease;
+}
+a:hover, a:focus-visible { text-decoration-color: var(--accent); }
+
+.apps li {
+  margin: 0 -12px;
+  padding: 12px;
+  border-radius: 12px;
+  transition: transform .25s ease, background-color .25s ease;
+}
+.apps li:hover {
+  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+
+/* Sections fade in while scrolling, only where scroll-driven animations are supported.
+   Elsewhere the content is simply shown as is. */
+@supports (animation-timeline: view()) {
+  main > section {
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
